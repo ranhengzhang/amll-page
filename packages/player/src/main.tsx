@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
 import "./i18n";
 import "./styles.css";
+import { registerSW } from "./registerSW";
 
 const ErrorRender = (props: FallbackProps) => {
 	console.error(props.error);
@@ -20,6 +21,9 @@ const ErrorRender = (props: FallbackProps) => {
 		</div>
 	);
 };
+
+// 注册 PWA Service Worker
+registerSW();
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<ErrorBoundary fallbackRender={ErrorRender}>

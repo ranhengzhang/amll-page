@@ -8,6 +8,7 @@ import i18nextLoader from "vite-plugin-i18next-loader";
 import lightningcss from "vite-plugin-lightningcss";
 import svgr from "vite-plugin-svgr";
 import wasm from "vite-plugin-wasm";
+import { VitePWA } from "vite-plugin-pwa";
 
 function getCommitHash() {
 	try {
@@ -120,6 +121,92 @@ export default defineConfig({
 		i18nextLoader({
 			paths: ["./locales"],
 			namespaceResolution: "basename",
+		}),
+		VitePWA({
+			registerType: "autoUpdate",
+			manifest: {
+				name: "AMLL Player",
+				short_name: "AMLL Player",
+				description: "Apple Music Like Lyrics Player - 类苹果音乐歌词播放器",
+				theme_color: "#000000",
+				background_color: "#000000",
+				display: "standalone",
+				orientation: "portrait",
+				scope: "/",
+				start_url: "/",
+				lang: "zh-CN",
+				icons: [
+					{
+						src: "/pwa-192x192.png",
+						sizes: "256x256",
+						type: "image/png",
+					},
+					{
+						src: "/pwa-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+					},
+					{
+						src: "/pwa-maskable-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+						purpose: "maskable",
+					},
+				],
+				screenshots: [
+					{
+						src: "/screenshot-wide.png",
+						sizes: "1280x720",
+						type: "image/png",
+						form_factor: "wide",
+						label: "AMLL Player 桌面端界面",
+					},
+					{
+						src: "/screenshot-narrow.png",
+						sizes: "390x844",
+						type: "image/png",
+						form_factor: "narrow",
+						label: "AMLL Player 移动端界面",
+					},
+				],
+			},
+			workbox: {
+				maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+				globPatterns: ["**/*.{js,css,html,svg,png,ico,wasm,json}"],
+				runtimeCaching: [
+					{
+						urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+						handler: "CacheFirst",
+						options: {
+							cacheName: "google-fonts-cache",
+							expiration: {
+								maxEntries: 10,
+								maxAgeSeconds: 60 * 60 * 24 * 365,
+							},
+							cacheableResponse: {
+								statuses: [0, 200],
+							},
+						},
+					},
+					{
+						urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+						handler: "CacheFirst",
+						options: {
+							cacheName: "gstatic-fonts-cache",
+							expiration: {
+								maxEntries: 10,
+								maxAgeSeconds: 60 * 60 * 24 * 365,
+							},
+							cacheableResponse: {
+								statuses: [0, 200],
+							},
+						},
+					},
+				],
+			},
+			devOptions: {
+				enabled: true,
+			},
 		}),
 	],
 	resolve: {
