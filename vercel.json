@@ -1,6 +1,0 @@
-{
-	"buildCommand": "cd packages/player && pnpm build",
-	"outputDirectory": "packages/player/dist",
-	"framework": "vite",
-	"installCommand": "pnpm install"
-}

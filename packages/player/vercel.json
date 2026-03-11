@@ -1,8 +1,5 @@
 {
-	"buildCommand": "pnpm build",
-	"outputDirectory": "dist",
-	"framework": "vite",
-	"installCommand": "pnpm install",
+	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"rewrites": [
 		{
 			"source": "/(.*)",
@@ -11,22 +8,19 @@
 	],
 	"headers": [
 		{
-			"source": "/sw.js",
+			"source": "(.*)",
 			"headers": [
 				{
-					"key": "Cache-Control",
-					"value": "public, max-age=0, must-revalidate"
-				}
-			]
-		},
-		{
-			"source": "/manifest.webmanifest",
-			"headers": [
+					"key": "Cross-Origin-Opener-Policy",
+					"value": "same-origin"
+				},
 				{
-					"key": "Cache-Control",
-					"value": "public, max-age=0, must-revalidate"
+					"key": "Cross-Origin-Embedder-Policy",
+					"value": "require-corp"
 				}
 			]
 		}
-	]
+	],
+	"installCommand": "pnpm install && rustup target add wasm32-unknown-unknown",
+	"buildCommand": "cd ../.. && npx nx build player"
 }
