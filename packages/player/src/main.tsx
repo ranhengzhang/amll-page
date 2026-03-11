@@ -15,8 +15,8 @@ const ErrorRender = (props: FallbackProps) => {
 			<h2>An unrecoverable error has occured</h2>
 			<code>
 				<pre>
-					{props.error.message}
-					{props.error.stack}
+					{(props.error as Error).message}
+					{(props.error as Error).stack}
 				</pre>
 			</code>
 		</div>
