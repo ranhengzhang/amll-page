@@ -19,3 +19,8 @@ target/
 *.tsbuildinfo
 .million/
 .gitnexus
+
+# AI Assistant
+.claude/
+AGENTS.md
+CLAUDE.md
